@@ -1,2 +1,34 @@
 sudo: required
 language: generic
+
+env:
+ global:
+  region: 'us-east-1'
+  access_key_id:
+    secure: $AWS_KEY_ID
+  secret_access_key: 
+    secure: $AWS_SECRET_KEY
+ 
+
+services: 
+  - Docker
+  - apt
+
+before_install: 
+  - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app:latest -f dockerfile.dev ./
+
+script:
+  - docker run 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app:latest  npm test
+
+after_success:
+   - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/main-app ./
+   - apt install --user awscli # install aws cli w/o sudo
+   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+   - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app
+   - eval $(aws ecr get-login --region us-east-1)
+   - docker push 236642024133.dkr.ecr.us-east-1.amazonaws.com/main-app
+
+#deploy:
+ # provider: elasticbeanstalk
+
+
