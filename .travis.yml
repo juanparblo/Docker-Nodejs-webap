@@ -13,10 +13,10 @@ services:
   
 
 before_install: 
-  - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/testapp:latest -f Dockerfile.dev .
+  - docker build -t testapp:latest -f Dockerfile.dev .
 
 script:
-  - docker run 236642024133.dkr.ecr.us-east-1.amazonaws.com/testapp:latest  npm test
+  - docker run testapp:latest  npm test
 
 after_success:
    - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/main-app ./
