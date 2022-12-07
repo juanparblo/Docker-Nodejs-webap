@@ -1,25 +1,2 @@
 sudo: required
-services:
- - docker
-
-before_install:
-  - run docker build -f dockerfile.dev -t juanparblo/frontendapp:1.0 .
-
-script:  
- - run docker run juanparblo/frontend:1.0 npm run test -- -- coverage 
-
-deploy:  
-  provider: "elasticbenstalk" 
-  region: "us-east-1"
-  app:    "Docker"     # Name of the app I put when you were creating your EB environment
-  env:    "Docker-env" # Name of the environment you created within EB for your App
-  bucket_name:       # Name of bucket Elastic Beanstalk created for you
-  bucket_path:      # just use the same name as your EB app name
-  on:
-   push:
-    branch: 
-     - master
-  # pull_request:  
-  access_key_id: $AWS_KEY_ID
-  secret_access_key: "$AWS_SECRET_KEY"
-   
+language: generic
