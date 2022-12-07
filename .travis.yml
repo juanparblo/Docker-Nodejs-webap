@@ -12,7 +12,7 @@ env:
 
 services: 
   - Docker
-  - apt
+  - npm
 
 before_install: 
   - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app:latest -f dockerfile.dev ./
@@ -22,7 +22,7 @@ script:
 
 after_success:
    - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/main-app ./
-   - apt install --user awscli # install aws cli w/o sudo
+   - npm install --user awscli # install aws cli w/o sudo
    - export PATH=$PATH:$HOME/.local/bin # put aws in the path
    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app
    - eval $(aws ecr get-login --region us-east-1)
