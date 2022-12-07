@@ -13,7 +13,7 @@ services:
   
 
 before_install: 
-  - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app:latest -f dockerfile.dev ./
+  - docker build -t 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app:latest -f dockerfile.dev .
 
 script:
   - docker run 236642024133.dkr.ecr.us-east-1.amazonaws.com/test-app:latest  npm test
